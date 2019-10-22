@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+*.ipch
+*.opendb
+*.db
+RogueLike/.vs/RogueLike/v16/.suo
+RogueLike/Debug/
