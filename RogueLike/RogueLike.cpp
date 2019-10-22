@@ -2,6 +2,9 @@
 #include "framework.h"
 #include "RogueLike.h"
 
+#include "Log/consoleLog.h"
+#define USE_CONSOLELOG
+
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
@@ -20,6 +23,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
+#ifdef USE_CONSOLELOG
+    consoleLog log;
+#endif
+
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
