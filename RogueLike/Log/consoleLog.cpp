@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "consoleLog.h"
 
+#include <locale>
+
 consoleLog::consoleLog()
 {
     AllocConsole();
@@ -9,6 +11,8 @@ consoleLog::consoleLog()
     fpTemp = freopen("CONOUT$", "w", stdout);
     fpTemp = freopen("CONOUT$", "w", stderr);
     fpTemp = freopen("CONIN$", "r", stdin);
+
+    std::wcout.imbue(std::locale("kor"));
 }
 
 consoleLog::~consoleLog()

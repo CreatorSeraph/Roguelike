@@ -32,23 +32,6 @@ LANGUAGE 18, 1
 IDI_ROGUELIKE       ICON         "RogueLike.ico"
 IDI_SMALL               ICON         "small.ico"
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// 메뉴
-//
-
-IDC_ROGUELIKE MENU
-BEGIN
-    POPUP "파일(&F)"
-    BEGIN
-        MENUITEM "끝내기(&X)",                IDM_EXIT
-    END
-    POPUP "도움말(&H)"
-    BEGIN
-        MENUITEM "정보(&A)...",           IDM_ABOUT
-    END
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -59,23 +42,6 @@ IDC_ROGUELIKE ACCELERATORS
 BEGIN
     "?",            IDM_ABOUT,              ASCII,  ALT
     "/",            IDM_ABOUT,              ASCII,  ALT
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// 대화 상자
-//
-
-IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "정보 RogueLike"
-FONT 9, "MS Shell Dlg"
-BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
-    LTEXT           "RogueLike, 버전 1.0",IDC_STATIC,42,14,114,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2019",IDC_STATIC,42,26,114,8
-    DEFPUSHBUTTON   "확인",IDOK,113,41,50,14,WS_GROUP
 END
 
 /////////////////////////////////////////////////////////////////////////////

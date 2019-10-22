@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Window\cMainWindow.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Log\consoleLog.h" />
     <ClInclude Include="pch.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Window\cMainWindow.cpp" />
     <ClCompile Include="Log\consoleLog.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

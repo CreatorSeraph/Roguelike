@@ -11,10 +11,16 @@
 
 #include "framework.h"
 
+#include <iostream>
 #include <string>
 #include <string_view>
 
 using namespace std::literals;
+using std::wstring;
+using std::wstring_view;
+using std::wcout;
+using std::wcerr;
+using std::wclog;
 
 #pragma comment( lib, "dxerr.lib" )
 #pragma comment( lib, "dxguid.lib" )
