@@ -25,6 +25,7 @@ public:
     deltaTimeType DeltaTime() { return m_deltaTime; }
 
     int GetFPSLimit() { return m_fpsLimit; }
+    //0프레임을 입력할시 프레임 제한 해제
     void SetFPSLimit(unsigned int _fps);
 };
 

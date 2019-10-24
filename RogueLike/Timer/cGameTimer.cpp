@@ -5,6 +5,7 @@
 
 cGameTimer& cGameTimer::GetInst()
 {
+    //ΩÃ±€≈Ê
     static cGameTimer instance;
     return instance;
 }
@@ -12,7 +13,8 @@ cGameTimer& cGameTimer::GetInst()
 cGameTimer::cGameTimer()
     :m_startTime(m_lastTime), m_nextTime(m_lastTime),
     m_totalTime(0), m_deltaTime(0),
-    m_fpsLimit(60), m_frameTime(16666666)
+    m_fpsLimit(60), m_frameTime(1000000000ns / 60)
+    //1s = 1000000000ns
 {
 }
 
@@ -53,5 +55,5 @@ void cGameTimer::SetFPSLimit(unsigned int _fps)
 {
     using namespace std::chrono;
     m_fpsLimit = _fps;
-    m_frameTime = (_fps == 0) ? 0ns : duration_cast<nanoseconds>(duration<deltaTimeType>(1.0 / _fps));
+    m_frameTime = (_fps == 0) ? 0ns : (1000000000ns / _fps);
 }
