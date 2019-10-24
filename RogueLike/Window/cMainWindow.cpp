@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "cMainWindow.h"
 #include "resource.h"
+#include "Timer/cGameTimer.h"
 
 cMainWindow::cMainWindow()
     :m_winClassName(L"RogueLike"), m_titleName(L"(대충 제목이라는 뜻)")
@@ -33,8 +34,7 @@ WPARAM cMainWindow::MainLoop()
     MSG msg;
     ZeroMemory(&msg, sizeof(MSG));
 
-    //TIMER->Init();
-    //TIMER->SetFixedFrame(0);
+    g_Timer.SetFPSLimit(0);
 
     while (msg.message != WM_QUIT)
     {
@@ -45,7 +45,7 @@ WPARAM cMainWindow::MainLoop()
         }
         else
         {
-            //Update();
+            wclog << g_Timer.Update() << std::endl;
         }
     }
 
