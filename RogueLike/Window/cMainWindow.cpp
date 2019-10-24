@@ -4,7 +4,7 @@
 #include "Timer/cGameTimer.h"
 
 cMainWindow::cMainWindow()
-    :m_winClassName(L"RogueLike"), m_titleName(L"(대충 제목이라는 뜻)")
+    : m_winClassName(L"RogueLike"), m_titleName(L"(대충 제목이라는 뜻)")
 {
 }
 
@@ -20,13 +20,13 @@ bool cMainWindow::Init(HINSTANCE instance, int cmdShow)
 
     if (!hWnd)
     {
-        return FALSE;
+        return false;
     }
 
     ShowWindow(hWnd, cmdShow);
     UpdateWindow(hWnd);
 
-    return TRUE;
+    return true;
 }
 
 WPARAM cMainWindow::MainLoop()
@@ -38,7 +38,7 @@ WPARAM cMainWindow::MainLoop()
 
     while (msg.message != WM_QUIT)
     {
-        if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
+        if (PeekMessage(&msg, nullptr, NULL, NULL, PM_REMOVE))
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);

@@ -11,9 +11,9 @@ cGameTimer& cGameTimer::GetInst()
 }
 
 cGameTimer::cGameTimer()
-    :m_startTime(m_lastTime), m_nextTime(m_lastTime),
-    m_totalTime(0), m_deltaTime(0),
-    m_fpsLimit(60), m_frameTime(1000000000ns / 60)
+    : m_lastTime(steadyTimer::now()), m_startTime(m_lastTime), m_nextTime(m_lastTime)
+    , m_totalTime(0), m_deltaTime(0)
+    , m_fpsLimit(60), m_frameTime(1000000000ns / 60)
     //1s = 1000000000ns
 {
 }
@@ -25,7 +25,7 @@ cGameTimer::~cGameTimer()
 void cGameTimer::Reset()
 {
     m_startTime = m_lastTime = steadyTimer::now();
-    m_totalTime = 0;
+    m_deltaTime = m_totalTime = 0;
 }
 
 deltaTimeType cGameTimer::Update()
@@ -34,6 +34,7 @@ deltaTimeType cGameTimer::Update()
     auto nowTime = steadyTimer::now();
     while (m_nextTime > nowTime)
     {
+        //업데이트 대기하는 동안에는 cpu점유를 놓아준다.
         std::this_thread::yield();
         nowTime = steadyTimer::now();
     }

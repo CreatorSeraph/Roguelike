@@ -4,6 +4,8 @@
 
 #include "Log/consoleLog.h"
 #include "Window/cMainWindow.h"
+
+//주석처리시, 콘솔 로그를 띄우지 않음.
 #define USE_CONSOLELOG
 
 cMainWindow g_mainWindow;
@@ -42,9 +44,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 #ifdef USE_CONSOLELOG
     consoleLog log;
 #endif
-    //LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    //LoadStringW(hInstance, IDC_ROGUELIKE, szWindowClass, MAX_LOADSTRING);
-
     MyRegisterClass(hInstance);
 
     if (!g_mainWindow.Init(hInstance, nCmdShow))

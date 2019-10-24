@@ -1,11 +1,14 @@
 #pragma once
+#include <chrono>
+#include "timerType.h"
 #include "cTimer.h"
 
-class cGameTimer : public cTimer
+class cGameTimer
 {
 public:
     static cGameTimer& GetInst();
 protected:
+    steadyTimer::time_point m_lastTime;
     steadyTimer::time_point m_startTime;
     steadyTimer::time_point m_nextTime;
 
