@@ -12,7 +12,7 @@ consoleLog::consoleLog()
     fpTemp = freopen("CONOUT$", "w", stderr);
     fpTemp = freopen("CONIN$", "r", stdin);
 
-    std::wcout.imbue(std::locale("kor"));
+    auto locale = std::wcout.imbue(std::locale("kor"));
 }
 
 consoleLog::~consoleLog()
