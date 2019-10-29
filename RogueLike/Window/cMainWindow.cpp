@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "cMainWindow.h"
 #include "resource.h"
-#include "Timer/cGameTimer.h"
 
 cMainWindow::cMainWindow()
     : m_winClassName(L"RogueLike"), m_titleName(L"(대충 제목이라는 뜻)"), m_hWnd(nullptr)
@@ -31,10 +30,11 @@ bool cMainWindow::Init(HINSTANCE instance, int cmdShow)
 
 WPARAM cMainWindow::MainLoop(HACCEL _hAccel)
 {
+    g_Timer.Reset();
+    g_Timer.SetFPSLimit(60);
+
     MSG msg;
     ZeroMemory(&msg, sizeof(MSG));
-
-    g_Timer.SetFPSLimit(60);
 
     while (msg.message != WM_QUIT)
     {

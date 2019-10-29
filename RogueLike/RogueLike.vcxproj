@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Device\cDevice.h" />
     <ClInclude Include="Timer\cGameTimer.h" />
     <ClInclude Include="Timer\cTimer.h" />
     <ClInclude Include="Timer\timerType.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Device\cDevice.cpp" />
     <ClCompile Include="Timer\cGameTimer.cpp" />
     <ClCompile Include="Timer\cTimer.cpp" />
     <ClCompile Include="Window\cMainWindow.cpp" />

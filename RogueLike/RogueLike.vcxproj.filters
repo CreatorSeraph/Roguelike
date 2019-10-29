@@ -45,6 +45,9 @@
     <ClInclude Include="Timer\timerType.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Device\cDevice.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RogueLike.cpp">
@@ -63,6 +66,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Timer\cGameTimer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Device\cDevice.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

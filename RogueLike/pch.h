@@ -22,26 +22,14 @@ using std::wcout;
 using std::wcerr;
 using std::wclog;
 
-#pragma comment( lib, "dxerr.lib" )
-#pragma comment( lib, "dxguid.lib" )
-#pragma comment( lib, "d3d9.lib" )
-#if defined(DEBUG) || defined(_DEBUG)
-#pragma comment( lib, "d3dx9d.lib" )
-#else
-#pragma comment( lib, "d3dx9.lib" )
-#endif
-
-#pragma warning(push)
-#pragma warning(disable: 26495)
-#include <d3d9.h>
-#include <d3dx9.h>
-#pragma warning(pop)
-
 template<class T, class = std::enable_if_t<std::is_pointer_v<T>>>
 void SAFE_DELETE(T& p)
 {
     delete p;
     p = nullptr;
 }
+
+#include "Timer/cGameTimer.h"
+#include "Device/cDevice.h"
 
 #endif //PCH_H
