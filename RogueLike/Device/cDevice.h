@@ -15,8 +15,21 @@
 #include <d3dx9.h>
 #pragma warning(pop)
 
+#include <vector>
+
 class cDevice
 {
+protected:
+    D3DPRESENT_PARAMETERS MakeD3Dpp(HWND _hWnd);
+    LPDIRECT3DDEVICE9 MakeDevice(HWND _hWnd);
+protected:
+    LPDIRECT3D9 m_d3d9;
+    D3DPRESENT_PARAMETERS m_nowD3Dpp;
+    LPDIRECT3DDEVICE9 m_pDevice;
+public:
+    cDevice(HWND _hWnd);
+    ~cDevice();
 
+    std::vector<POINT> GetDeviceSize();
 };
 
