@@ -20,6 +20,11 @@
 class cDevice
 {
 protected:
+    inline static cDevice* g_inst;
+public:
+    static cDevice& MakeInst(HWND _hWnd);
+    static cDevice& GetInst();
+protected:
     D3DPRESENT_PARAMETERS MakeD3Dpp(HWND _hWnd);
     LPDIRECT3DDEVICE9 MakeDevice(HWND _hWnd);
 protected:
@@ -33,3 +38,5 @@ public:
     std::vector<POINT> GetDeviceSize();
 };
 
+//singleton
+inline auto& g_Device = cDevice::GetInst();

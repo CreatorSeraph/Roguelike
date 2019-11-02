@@ -1,6 +1,19 @@
 #include "pch.h"
 #include "cDevice.h"
 
+cDevice& cDevice::MakeInst(HWND _hWnd)
+{
+    if(!g_inst)
+        g_inst = new cDevice(_hWnd);
+
+    return *g_inst;
+}
+
+cDevice& cDevice::GetInst()
+{
+    return *g_inst;
+}
+
 D3DPRESENT_PARAMETERS cDevice::MakeD3Dpp(HWND _hWnd)
 {
     D3DPRESENT_PARAMETERS d3dpp;
@@ -30,7 +43,7 @@ LPDIRECT3DDEVICE9 cDevice::MakeDevice(HWND _hWnd)
     }
 
     LPDIRECT3DDEVICE9 device;
-    D3DCAPS9	caps;
+    D3DCAPS9 caps;
     m_d3d9->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps);
 
     DWORD vertexProcessing = 0;
@@ -46,33 +59,6 @@ LPDIRECT3DDEVICE9 cDevice::MakeDevice(HWND _hWnd)
         vertexProcessing | D3DCREATE_MULTITHREADED,
         &m_nowD3Dpp,
         &device);
-
-    return device;
-}
-
-cDevice::cDevice(HWND _hWnd)
-    :m_d3d9(Direct3DCreate9(D3D_SDK_VERSION)), m_nowD3Dpp(MakeD3Dpp(_hWnd)), m_pDevice(MakeDevice(_hWnd))
-{
-    D3DCAPS9	caps;
-    m_d3d9->GetDeviceCaps(
-        D3DADAPTER_DEFAULT,
-        D3DDEVTYPE_HAL,
-        &caps
-    );
-
-    DWORD vertexProcessing = 0;
-    if (caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT)
-        vertexProcessing = D3DCREATE_HARDWARE_VERTEXPROCESSING;
-    else
-        vertexProcessing = D3DCREATE_SOFTWARE_VERTEXPROCESSING;//대체 무슨 그래픽카드를 쓰시는 겁니까...
-
-    HRESULT result = m_d3d9->CreateDevice(
-        D3DADAPTER_DEFAULT,
-        D3DDEVTYPE_HAL,
-        _hWnd,
-        vertexProcessing | D3DCREATE_MULTITHREADED,
-        &m_nowD3Dpp,
-        &m_pDevice);
 
     switch (result)
     {
@@ -93,6 +79,13 @@ cDevice::cDevice(HWND _hWnd)
     default:
         break;
     }
+
+    return device;
+}
+
+cDevice::cDevice(HWND _hWnd)
+    :m_d3d9(Direct3DCreate9(D3D_SDK_VERSION)), m_nowD3Dpp(MakeD3Dpp(_hWnd)), m_pDevice(MakeDevice(_hWnd))
+{
 }
 
 cDevice::~cDevice()
