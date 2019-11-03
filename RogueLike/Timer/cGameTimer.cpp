@@ -11,7 +11,7 @@ cGameTimer& cGameTimer::GetInst()
 }
 
 cGameTimer::cGameTimer()
-    : m_lastTime(steadyTimer::now()), m_startTime(m_lastTime), m_nextTime(m_lastTime)
+    : m_startTime(steadyTimer::now()), m_lastTime(m_startTime), m_nextTime(m_lastTime)
     , m_totalTime(0), m_deltaTime(0)
     , m_fpsLimit(60), m_frameTime(1000000000ns / 60)
     //1s = 1000000000ns
@@ -26,6 +26,8 @@ void cGameTimer::Reset()
 {
     m_startTime = m_lastTime = steadyTimer::now();
     m_deltaTime = m_totalTime = 0;
+    m_fpsLimit = 60;
+    m_frameTime = 1000000000ns / 60;
 }
 
 deltaTimeType cGameTimer::Update()

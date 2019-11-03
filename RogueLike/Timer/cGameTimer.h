@@ -8,8 +8,8 @@ class cGameTimer
 public:
     static cGameTimer& GetInst();
 protected:
-    steadyTimer::time_point m_lastTime;
     steadyTimer::time_point m_startTime;
+    steadyTimer::time_point m_lastTime;
     steadyTimer::time_point m_nextTime;
 
     deltaTimeType m_totalTime;
@@ -25,7 +25,9 @@ public:
     void Reset();
     //DeltaTime이 지날때까지 대기하는 함수
     deltaTimeType Update();
+
     deltaTimeType DeltaTime() { return m_deltaTime; }
+    deltaTimeType ElapsedTime() { return m_totalTime; }
 
     int GetFPSLimit() { return m_fpsLimit; }
     //0프레임을 입력할시 프레임 제한 해제
