@@ -25,6 +25,8 @@ bool cMainWindow::Init(HINSTANCE instance, int cmdShow)
     ShowWindow(m_hWnd, cmdShow);
     UpdateWindow(m_hWnd);
 
+    g_Device.Init(m_hWnd);
+
     return true;
 }
 
@@ -60,8 +62,6 @@ LRESULT cMainWindow::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 {
     switch (message)
     {
-    case WM_PAINT:
-        break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

@@ -19,23 +19,25 @@
 
 class cDevice
 {
-protected:
-    inline static cDevice* g_inst;
 public:
-    static cDevice& MakeInst(HWND _hWnd);
     static cDevice& GetInst();
 protected:
-    D3DPRESENT_PARAMETERS MakeD3Dpp(HWND _hWnd);
-    LPDIRECT3DDEVICE9 MakeDevice(HWND _hWnd);
+    D3DPRESENT_PARAMETERS MakeDefaultD3Dpp(HWND _hWnd);
+    HRESULT MakeDevice(HWND _hWnd);
+    bool SaveNowD3Dpp();
+    bool LoadNowD3Dpp();
 protected:
+    bool m_isInitialized;
     LPDIRECT3D9 m_d3d9;
     D3DPRESENT_PARAMETERS m_nowD3Dpp;
     LPDIRECT3DDEVICE9 m_pDevice;
 public:
-    cDevice(HWND _hWnd);
+    cDevice();
     ~cDevice();
+public:
+    HRESULT Init(HWND _hWnd);
 
-    std::vector<POINT> GetDeviceSize();
+    std::vector<D3DDISPLAYMODE> GetDeviceSize();
 };
 
 //singleton
