@@ -23,7 +23,6 @@ public:
     static cDevice& GetInst();
 protected:
     D3DPRESENT_PARAMETERS MakeDefaultD3Dpp(HWND _hWnd);
-    HRESULT MakeDevice(HWND _hWnd);
     bool SaveNowD3Dpp();
     bool LoadNowD3Dpp();
 protected:

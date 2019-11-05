@@ -36,9 +36,14 @@ D3DPRESENT_PARAMETERS cDevice::MakeDefaultD3Dpp(HWND _hWnd)
 
 bool cDevice::SaveNowD3Dpp()
 {
-    if (!std::filesystem::create_directory(L"./System")) return false;
-
-    std::wofstream d3dppData(L"./System/d3dpp.save", std::ios::binary);
+    std::filesystem::path path(L"./System/d3dpp.save");
+    //파일을 저장하기 위한 폴더가 없으면
+    if (!std::filesystem::exists(path.parent_path()))
+    {
+        //파을을 저장할 폴더를 작성해준다(폴더를 못만들 경우 false를 반환)
+        if (!std::filesystem::create_directories(path.parent_path())) return false;
+    }
+    std::wofstream d3dppData(path, std::ios::binary | std::ios::trunc);
     if (!d3dppData.is_open()) return false;
 
     d3dppData << m_nowD3Dpp.Windowed << m_nowD3Dpp.BackBufferWidth << m_nowD3Dpp.BackBufferHeight << m_nowD3Dpp.PresentationInterval;

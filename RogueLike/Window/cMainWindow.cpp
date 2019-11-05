@@ -25,9 +25,7 @@ bool cMainWindow::Init(HINSTANCE instance, int cmdShow)
     ShowWindow(m_hWnd, cmdShow);
     UpdateWindow(m_hWnd);
 
-    g_Device.Init(m_hWnd);
-
-    return true;
+    return SUCCEEDED(g_Device.Init(m_hWnd));
 }
 
 WPARAM cMainWindow::MainLoop(HACCEL _hAccel)
