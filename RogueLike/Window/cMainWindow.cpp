@@ -48,8 +48,24 @@ WPARAM cMainWindow::MainLoop(HACCEL _hAccel)
         }
         else
         {
-            //g_Timer.Update();
             wclog << g_Timer.Update() << std::endl;
+
+            //그래픽카드 lost상태일시 reset 시도
+            g_Device.TryDeviceReset();
+
+            //대충 여기서 메인게임 업데이트 돌아가야 한다는 뜻
+
+            g_Device.Clear();
+            if (SUCCEEDED(g_Device.BeginScene()))
+            {
+                //여기서 필요한 랜더링 함수 작동
+                g_Device.EndScene();
+            }
+
+            if (FAILED(g_Device.Present()))
+            {
+                //device가 lost상태이거나 복구할수 없음
+            }
         }
     }
 

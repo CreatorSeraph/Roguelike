@@ -30,11 +30,19 @@ protected:
     LPDIRECT3D9 m_d3d9;
     D3DPRESENT_PARAMETERS m_nowD3Dpp;
     LPDIRECT3DDEVICE9 m_pDevice;
+
+    D3DCOLOR m_clearColor;
 public:
     cDevice();
     ~cDevice();
 public:
     HRESULT Init(HWND _hWnd);
+    HRESULT Clear();
+    HRESULT BeginScene();
+    HRESULT EndScene();
+    HRESULT Present();
+    HRESULT TryDeviceReset();
+    HRESULT ChangeDevice();
 
     std::vector<D3DDISPLAYMODE> GetDeviceSize();
 };

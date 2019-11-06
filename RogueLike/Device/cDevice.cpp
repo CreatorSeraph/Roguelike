@@ -60,7 +60,8 @@ bool cDevice::LoadNowD3Dpp()
 }
 
 cDevice::cDevice()
-    :m_isInitialized(false), m_d3d9(Direct3DCreate9(D3D_SDK_VERSION)), m_nowD3Dpp(), m_pDevice(nullptr)
+    : m_isInitialized(false), m_d3d9(Direct3DCreate9(D3D_SDK_VERSION)), m_nowD3Dpp(), m_pDevice(nullptr)
+    , m_clearColor(0xff0000ff)
 {
     if(!m_d3d9)
         throw std::exception("다이렉트 x9을 지원하지 않습니다.");
@@ -114,6 +115,32 @@ HRESULT cDevice::Init(HWND _hWnd)
     }
     
     return result;
+}
+
+HRESULT cDevice::Clear()
+{
+    return m_pDevice->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, m_clearColor, 1.0f, 0);
+}
+
+HRESULT cDevice::BeginScene()
+{
+    return m_pDevice->BeginScene();
+}
+
+HRESULT cDevice::EndScene()
+{
+    return m_pDevice->EndScene();
+}
+
+HRESULT cDevice::Present()
+{
+    return m_pDevice->Present(nullptr, nullptr, nullptr, nullptr);
+}
+
+HRESULT cDevice::TryDeviceReset()
+{
+    //와 여기가 진짜 헬이네
+    return S_OK;
 }
 
 std::vector<D3DDISPLAYMODE> cDevice::GetDeviceSize()
