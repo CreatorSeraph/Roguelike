@@ -16,6 +16,7 @@
 #pragma warning(pop)
 
 #include <vector>
+#include <functional>
 
 class cDevice
 {
@@ -32,6 +33,12 @@ protected:
     LPDIRECT3DDEVICE9 m_pDevice;
 
     D3DCOLOR m_clearColor;
+
+    bool m_isLost;
+    bool m_needResetObj;
+
+    std::function<void()> m_lostDeviceFunc;
+    std::function<void()> m_resetDeviceFunc;
 public:
     cDevice();
     ~cDevice();
@@ -43,6 +50,8 @@ public:
     HRESULT Present();
     HRESULT TryDeviceReset();
     HRESULT ChangeDevice();
+
+    bool isLostDevice() { return m_isLost; }
 
     std::vector<D3DDISPLAYMODE> GetDeviceSize();
 };

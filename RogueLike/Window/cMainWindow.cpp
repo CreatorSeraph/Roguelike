@@ -51,7 +51,8 @@ WPARAM cMainWindow::MainLoop(HACCEL _hAccel)
             wclog << g_Timer.Update() << std::endl;
 
             //그래픽카드 lost상태일시 reset 시도
-            g_Device.TryDeviceReset();
+            if(g_Device.isLostDevice())
+                g_Device.TryDeviceReset();
 
             //대충 여기서 메인게임 업데이트 돌아가야 한다는 뜻
 

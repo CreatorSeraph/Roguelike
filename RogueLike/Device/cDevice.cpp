@@ -62,6 +62,7 @@ bool cDevice::LoadNowD3Dpp()
 cDevice::cDevice()
     : m_isInitialized(false), m_d3d9(Direct3DCreate9(D3D_SDK_VERSION)), m_nowD3Dpp(), m_pDevice(nullptr)
     , m_clearColor(0xff0000ff)
+    , m_isLost(false), m_needResetObj(false)
 {
     if(!m_d3d9)
         throw std::exception("다이렉트 x9을 지원하지 않습니다.");
@@ -134,13 +135,46 @@ HRESULT cDevice::EndScene()
 
 HRESULT cDevice::Present()
 {
-    return m_pDevice->Present(nullptr, nullptr, nullptr, nullptr);
+    auto result = m_pDevice->Present(nullptr, nullptr, nullptr, nullptr);
+    if (result == D3DERR_DEVICELOST)
+    {
+        //lost가 일어난 상황의 경우는 절전모드등의 이유로 cpu점유를 가져오지 못 할 수도 있으므로
+        //여기서는 lost임을 체크만 해주고, tryDeviceReset에서 처리한다.
+        m_isLost = true;
+    }
+
+    return result;
 }
 
 HRESULT cDevice::TryDeviceReset()
 {
     //와 여기가 진짜 헬이네
-    return S_OK;
+    HRESULT result = m_pDevice->TestCooperativeLevel();
+    if (result == D3DERR_DEVICENOTRESET)
+    {
+        //여러번 reset을 시도하는 일이 없도록 함.
+        if (m_needResetObj)
+        {
+            //onLost
+            if (m_lostDeviceFunc)
+                m_lostDeviceFunc();
+
+            m_needResetObj = false;
+        }
+
+        //reset
+        result = m_pDevice->Reset(&m_nowD3Dpp);
+        if (FAILED(result))
+            return result;
+
+        //onReset
+        if (m_resetDeviceFunc)
+            m_resetDeviceFunc();
+
+        //오브젝트가 reset되었으므로, 다음 lost시에는 다시 reset해야함
+        m_needResetObj = true;
+    }
+    return result;
 }
 
 std::vector<D3DDISPLAYMODE> cDevice::GetDeviceSize()
