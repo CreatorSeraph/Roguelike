@@ -173,6 +173,7 @@ HRESULT cDevice::TryDeviceReset()
 
         //오브젝트가 reset되었으므로, 다음 lost시에는 다시 reset해야함
         m_needResetObj = true;
+        m_isLost = false;
     }
     return result;
 }

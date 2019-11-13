@@ -7,6 +7,7 @@ protected:
     wstring m_titleName;
 
     HWND m_hWnd;
+    bool m_isActive;
 public:
     cMainWindow();
     ~cMainWindow();

@@ -2,8 +2,11 @@
 #include "cMainWindow.h"
 #include "resource.h"
 
+#include <thread>
+
 cMainWindow::cMainWindow()
     : m_winClassName(L"RogueLike"), m_titleName(L"(대충 제목이라는 뜻)"), m_hWnd(nullptr)
+    , m_isActive(true)
 {
 }
 
@@ -48,13 +51,27 @@ WPARAM cMainWindow::MainLoop(HACCEL _hAccel)
         }
         else
         {
-            wclog << g_Timer.Update() << std::endl;
+            if (g_Device.isLostDevice())
+            {
+                //화면이 비활성화 되어있을시, cpu점유율을 낮춰줌
+                std::this_thread::sleep_for(50ms);
+            }
 
             //그래픽카드 lost상태일시 reset 시도
-            if(g_Device.isLostDevice())
-                g_Device.TryDeviceReset();
+            if (g_Device.isLostDevice())
+            {
+                auto resetResult = g_Device.TryDeviceReset();
+                if (resetResult == D3DERR_DEVICELOST)
+                    continue;
+                else if (resetResult != D3D_OK)
+                {
+                    SendMessage(m_hWnd, WM_CLOSE, 0, 0);
+                    continue;
+                }
+            }
 
             //대충 여기서 메인게임 업데이트 돌아가야 한다는 뜻
+            wclog << g_Timer.Update() << std::endl;
 
             g_Device.Clear();
             if (SUCCEEDED(g_Device.BeginScene()))
@@ -80,6 +97,20 @@ LRESULT cMainWindow::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
+    case WM_ACTIVATEAPP:
+        if (wParam && !m_isActive)
+        {
+            m_isActive = true;
+            //뭐야 커서 다시 잠궈요
+            //뭐야 다시 키셋팅 잠궈요
+        }
+        else if(!wParam && m_isActive)
+        {
+            m_isActive = false;
+            //뭐야 커서 돌려줘요
+            //뭐야 커서 잠금 풀어줘요
+            //뭐야 잠궜던 윈도우키랑 키셋팅 돌려줘요
+        }
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
