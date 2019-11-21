@@ -3,12 +3,13 @@
 class cObject;
 class cComponent
 {
+    friend cObject;
 protected:
-    cObject* m_obj;
+    const cObject* m_obj;
     //여기에 멤버변수를 기재
 public:
-    cComponent() = default;
-    ~cComponent() = default;
+    cComponent(cObject* _obj);
+    ~cComponent();
 
     cComponent(const cComponent& other) = delete;
     cComponent(cComponent&& other) = delete;

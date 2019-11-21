@@ -1,10 +1,28 @@
 #pragma once
 #include <map>
+#include <type_traits>
+#include "Component/cComponent.h"
 
-class cComponent;
 class cObject
 {
 protected:
-    std::map<key?,cComponent*>
-};
+    std::map<string, cComponent*> m_components;
+public:
+    template<class ComponentType, class = std::enable_if_t<std::is_base_of_v<cComponent, ComponentType>>, class ...Args>
+    ComponentType* AddComponent(Args&&... args)
+    {
+        string key = typeid(ComponentType).name();
 
+        if (m_components.find(key) == m_components.end())
+        {
+            cComponent* newComponent = new ComponentType(this, std::forward(args)...);
+            newComponent->OnCreate();
+
+            m_components.insert(std::make_pair(key, newComponent));
+
+            return newComponent;
+        }
+
+        return nullptr;
+    }
+};
