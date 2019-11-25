@@ -25,4 +25,15 @@ public:
 
         return nullptr;
     }
+
+    template<class ComponentType, class = std::enable_if_t<std::is_base_of_v<cComponent, ComponentType>>>
+    ComponentType* GetComponent()
+    {
+        string key = typeid(ComponentType).name();
+
+        if (auto find = m_components.find(key); find == m_components.end())
+            return find->second;
+
+        return nullptr;
+    }
 };

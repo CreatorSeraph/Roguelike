@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Component\cCamera.h" />
     <ClInclude Include="Component\c2DCollider.h" />
     <ClInclude Include="Component\c2DTransform.h" />
     <ClInclude Include="Object\cObject.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Timer\cGameTimer.h" />
     <ClInclude Include="Timer\cTimer.h" />
     <ClInclude Include="Timer\timerType.h" />
+    <ClInclude Include="Util\utilMath.h" />
     <ClInclude Include="Window\cMainWindow.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Log\consoleLog.h" />
@@ -184,6 +186,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Component\cCamera.cpp" />
     <ClCompile Include="Component\c2DCollider.cpp" />
     <ClCompile Include="Component\c2DTransform.cpp" />
     <ClCompile Include="Object\cObject.cpp" />
@@ -191,6 +194,7 @@
     <ClCompile Include="Device\cDevice.cpp" />
     <ClCompile Include="Timer\cGameTimer.cpp" />
     <ClCompile Include="Timer\cTimer.cpp" />
+    <ClCompile Include="Util\utilMath.cpp" />
     <ClCompile Include="Window\cMainWindow.cpp" />
     <ClCompile Include="Log\consoleLog.cpp" />
     <ClCompile Include="pch.cpp">

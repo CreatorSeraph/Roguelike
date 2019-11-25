@@ -18,8 +18,6 @@ cMainWindow::~cMainWindow()
 
 bool cMainWindow::Init(HINSTANCE instance, int cmdShow)
 {
-    int a, b;
-    a = 4, b = 5;
     DWORD dwStyle = WS_CAPTION | WS_THICKFRAME | WS_MINIMIZEBOX | WS_SYSMENU;
     m_hWnd = CreateWindowExW(0, m_winClassName.c_str(), m_titleName.c_str(), dwStyle,
         CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, instance, nullptr);

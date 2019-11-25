@@ -1,5 +1,8 @@
 #pragma once
-class c2DTransform
+#include <list>
+#include "Component/cComponent.h"
+
+class c2DTransform : public cComponent
 {
 protected:
     //x, y  : pos
@@ -10,7 +13,11 @@ protected:
     D3DXVECTOR2 m_size;
     float m_rot;
 
+    bool isNeedRenewalMatrix;
     D3DXMATRIX m_matrix;
+
+    c2DTransform* m_parent;
+    std::list<c2DTransform*> m_childs;
 protected:
     void RenewalMatrix();
 public:
@@ -25,4 +32,3 @@ public:
 
     const D3DXMATRIX& GetMatrix() { return m_matrix; }
 };
-

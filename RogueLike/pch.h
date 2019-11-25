@@ -33,5 +33,6 @@ void SAFE_DELETE(T& p)
 
 #include "Timer/cGameTimer.h"
 #include "Device/cDevice.h"
+#include "Util/utilMath.h"
 
 #endif //PCH_H
