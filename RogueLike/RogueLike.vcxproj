@@ -167,9 +167,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Render\c2DRenderer.h" />
     <ClInclude Include="Component\cCamera.h" />
     <ClInclude Include="Component\c2DCollider.h" />
     <ClInclude Include="Component\c2DTransform.h" />
+    <ClInclude Include="Render\cTexture.h" />
     <ClInclude Include="Object\cObject.h" />
     <ClInclude Include="Component\cComponent.h" />
     <ClInclude Include="Device\cDevice.h" />
@@ -186,9 +188,11 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Render\c2DRenderer.cpp" />
     <ClCompile Include="Component\cCamera.cpp" />
     <ClCompile Include="Component\c2DCollider.cpp" />
     <ClCompile Include="Component\c2DTransform.cpp" />
+    <ClCompile Include="Render\cTexture.cpp" />
     <ClCompile Include="Object\cObject.cpp" />
     <ClCompile Include="Component\cComponent.cpp" />
     <ClCompile Include="Device\cDevice.cpp" />
