@@ -38,9 +38,6 @@ WPARAM cMainWindow::MainLoop(HACCEL _hAccel)
     g_Timer.Reset();
     g_Timer.SetFPSLimit(60);
 
-    cObject t;
-    t.AddComponent<cComponent>();
-
     MSG msg;
     ZeroMemory(&msg, sizeof(MSG));
 
