@@ -64,8 +64,8 @@ cDevice::cDevice()
     , m_clearColor(0xff0000ff)
     , m_isLost(false), m_needResetObj(false)
 {
-    if(!m_d3d9)
-        throw std::exception("다이렉트 x9을 지원하지 않습니다.");
+    if (!m_d3d9)
+        wclog << "cDevice::cDevice - Can Not Call Direct3DCreate9" << endl;
 }
 
 cDevice::~cDevice()
@@ -79,6 +79,9 @@ cDevice::~cDevice()
 
 HRESULT cDevice::Init(HWND _hWnd)
 {
+    if (!m_d3d9)
+        return E_FAIL;
+
     m_nowD3Dpp = MakeDefaultD3Dpp(_hWnd);
     bool isLoadD3Dpp = LoadNowD3Dpp();
 
@@ -109,6 +112,7 @@ HRESULT cDevice::Init(HWND _hWnd)
     }
     else if (result == D3DERR_INVALIDCALL && isLoadD3Dpp)
     {
+        wclog << "cDevice::Init - Faild Load Last Setting" << endl;
         //함수 인자가 잘못되었다.
         //최근에 불러온 설정이 있었다면, 기본설정으로 초기화 해본다.
         m_nowD3Dpp = MakeDefaultD3Dpp(_hWnd);

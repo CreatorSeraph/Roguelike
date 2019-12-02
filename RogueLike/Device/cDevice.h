@@ -53,7 +53,10 @@ public:
 
     bool isLostDevice() { return m_isLost; }
 
+    LPDIRECT3DDEVICE9 GetDevice() { return m_pDevice; }
     std::vector<D3DDISPLAYMODE> GetDeviceSize();
+
+    operator bool() { return m_d3d9; }
 };
 
 //singleton
