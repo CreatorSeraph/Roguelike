@@ -26,6 +26,6 @@ void cComponent::OnDisable()
 {
 }
 
-void cComponent::Update()
+void cComponent::onUpdate()
 {
 }

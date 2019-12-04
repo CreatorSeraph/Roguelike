@@ -38,10 +38,13 @@ bool cDevice::SaveNowD3Dpp()
 {
     std::filesystem::path path(L"./System/d3dpp.save");
     //파일을 저장하기 위한 폴더가 없으면
-    if (!std::filesystem::exists(path.parent_path()))
+    if (auto parentPath = path.parent_path(); !std::filesystem::exists(parentPath))
     {
         //파을을 저장할 폴더를 작성해준다(폴더를 못만들 경우 false를 반환)
-        if (!std::filesystem::create_directories(path.parent_path())) return false;
+        if (!std::filesystem::create_directories(parentPath))
+        {
+            return false;
+        }
     }
     std::wofstream d3dppData(path, std::ios::binary | std::ios::trunc);
     if (!d3dppData.is_open()) return false;
@@ -53,7 +56,10 @@ bool cDevice::SaveNowD3Dpp()
 bool cDevice::LoadNowD3Dpp()
 {
     std::wifstream d3dppData(L"./System/d3dpp.save", std::ios::binary);
-    if (!d3dppData.is_open()) return false;
+    if (!d3dppData.is_open())
+    {
+        return false;
+    }
 
     d3dppData >> m_nowD3Dpp.Windowed >> m_nowD3Dpp.BackBufferWidth >> m_nowD3Dpp.BackBufferHeight >> m_nowD3Dpp.PresentationInterval;
     return true;

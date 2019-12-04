@@ -23,7 +23,7 @@ using std::wstring_view;
 using std::wcout;
 using std::wcerr;
 using std::wclog;
-using std::endl
+using std::endl;
 
 template<class T, class = std::enable_if_t<std::is_pointer_v<T>>>
 void SAFE_DELETE(T& p)

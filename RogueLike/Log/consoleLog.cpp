@@ -4,6 +4,7 @@
 #include <locale>
 
 consoleLog::consoleLog()
+    : m_logFile(L"logFile.txt")
 {
     AllocConsole();
 
@@ -13,9 +14,12 @@ consoleLog::consoleLog()
     fpTemp = freopen("CONIN$", "r", stdin);
 
     std::locale loc("kor");
-    auto lastLocOut = std::wcout.imbue(loc);
-    auto lastLocLog = std::wclog.imbue(loc);
-    auto lastLocErr = std::wcerr.imbue(loc);
+    auto lastLocOut = wcout.imbue(loc);
+    auto lastLocLog = wclog.imbue(loc);
+    auto lastLocErr = wcerr.imbue(loc);
+
+    auto fileBuf = m_logFile.rdbuf();
+    auto lastBuf = wclog.rdbuf(fileBuf);
 
     std::ios::sync_with_stdio(true);
 }

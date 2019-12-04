@@ -9,7 +9,7 @@ protected:
     //여기에 멤버변수를 기재
 public:
     cComponent(cObject* _obj);
-    ~cComponent();
+    virtual ~cComponent();
 
     cComponent(const cComponent& other) = delete;
     cComponent(cComponent&& other) = delete;
@@ -18,6 +18,6 @@ protected:
     virtual void OnDestroy();
     virtual void OnEnable();
     virtual void OnDisable();
-    virtual void Update();
+    virtual void onUpdate();
 };
 

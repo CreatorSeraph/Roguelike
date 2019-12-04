@@ -3,7 +3,7 @@
 class cTexture
 {
 protected:
-    void Load();
+    bool Load();
     void UnLoad();
 protected:
     D3DXIMAGE_INFO m_info;
@@ -12,5 +12,7 @@ protected:
 public:
     cTexture(const wstring_view& path);
     ~cTexture();
+
+    operator LPDIRECT3DTEXTURE9() { return m_texture; }
 };
 
