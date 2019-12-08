@@ -167,6 +167,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="cComponentManager.h" />
+    <ClInclude Include="Render\cRenderer.h" />
+    <ClInclude Include="cThreadPool.h" />
     <ClInclude Include="Render\c2DRenderer.h" />
     <ClInclude Include="Component\cCamera.h" />
     <ClInclude Include="Component\c2DCollider.h" />
@@ -188,6 +191,9 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cComponentManager.cpp" />
+    <ClCompile Include="Render\cRenderer.cpp" />
+    <ClCompile Include="cThreadPool.cpp" />
     <ClCompile Include="Render\c2DRenderer.cpp" />
     <ClCompile Include="Component\cCamera.cpp" />
     <ClCompile Include="Component\c2DCollider.cpp" />

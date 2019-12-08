@@ -15,7 +15,8 @@ public:
 
         if (m_components.find(key) == m_components.end())
         {
-            cComponent* newComponent = new ComponentType(this, std::forward(args)...);
+            cComponent* newComponent = new ComponentType(std::forward(args)...);
+            newComponent->SetObject(this);
             newComponent->OnCreate();
 
             m_components.insert(std::make_pair(key, newComponent));

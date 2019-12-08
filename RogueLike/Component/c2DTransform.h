@@ -20,7 +20,7 @@ protected:
 protected:
     void RenewalMatrix();
 public:
-    c2DTransform(cObject* _obj);
+    c2DTransform();
     ~c2DTransform();
 
     D3DXVECTOR3 GetPos() { return m_pos; }

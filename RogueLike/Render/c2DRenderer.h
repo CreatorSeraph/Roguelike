@@ -1,9 +1,9 @@
 #pragma once
-#include "Component/cComponent.h"
+#include "cRenderer.h"
 
 class cTexture;
 
-class c2DRenderer : public cComponent
+class c2DRenderer : public cRenderer
 {
 protected:
     struct sVertexType

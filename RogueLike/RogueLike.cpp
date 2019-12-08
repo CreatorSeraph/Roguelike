@@ -5,9 +5,6 @@
 #include "Log/consoleLog.h"
 #include "Window/cMainWindow.h"
 
-//주석처리시, 콘솔 로그를 띄우지 않음.
-#define USE_CONSOLELOG
-
 cMainWindow g_mainWindow;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -41,9 +38,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
-#ifdef USE_CONSOLELOG
     consoleLog log;
-#endif
     MyRegisterClass(hInstance);
 
     if (!g_mainWindow.Init(hInstance, nCmdShow))

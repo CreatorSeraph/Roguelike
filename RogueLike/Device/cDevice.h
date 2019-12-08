@@ -21,7 +21,7 @@
 class cDevice
 {
 public:
-    static cDevice& GetInst();
+    MAKE_SINGLETONFUNC(cDevice, GetInst)
 protected:
     D3DPRESENT_PARAMETERS MakeDefaultD3Dpp(HWND _hWnd);
     bool SaveNowD3Dpp();
@@ -60,4 +60,6 @@ public:
 };
 
 //singleton
-inline auto& g_Device = cDevice::GetInst();
+#define g_Device cDevice::GetInst()
+//inline auto& g_Device = cDevice::GetInst();
+//아래 방법이면 GetInst함수를 호출하는게 아니라 그걸로 변수를 초기화 해버린다 ;-;

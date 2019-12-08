@@ -6,7 +6,7 @@
 class cGameTimer
 {
 public:
-    static cGameTimer& GetInst();
+    MAKE_SINGLETONFUNC(cGameTimer, GetInst)
 protected:
     steadyTimer::time_point m_startTime;
     steadyTimer::time_point m_lastTime;
@@ -34,8 +34,7 @@ public:
     void SetFPSLimit(unsigned int _fps);
 };
 
-//define대신 전역변수를 쓰기로 했다.
-//#define TIMER cGameTimer::GetInst()
+#define g_Timer cGameTimer::GetInst()
 
 //singleton
-inline auto& g_Timer = cGameTimer::GetInst();
+//inline auto& g_Timer = cGameTimer::GetInst();

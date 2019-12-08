@@ -4,12 +4,6 @@
 #include <filesystem>
 #include <fstream>
 
-cDevice& cDevice::GetInst()
-{
-    static cDevice instance;
-    return instance;
-}
-
 D3DPRESENT_PARAMETERS cDevice::MakeDefaultD3Dpp(HWND _hWnd)
 {
     D3DPRESENT_PARAMETERS d3dpp;

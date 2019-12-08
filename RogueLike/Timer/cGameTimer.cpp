@@ -3,13 +3,6 @@
 
 #include <thread>
 
-cGameTimer& cGameTimer::GetInst()
-{
-    //ΩÃ±€≈Ê
-    static cGameTimer instance;
-    return instance;
-}
-
 cGameTimer::cGameTimer()
     : m_startTime(steadyTimer::now()), m_lastTime(m_startTime), m_nextTime(m_lastTime)
     , m_totalTime(0), m_deltaTime(0)

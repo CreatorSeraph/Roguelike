@@ -32,6 +32,13 @@ void SAFE_DELETE(T& p)
     p = nullptr;
 }
 
+#define MAKE_SINGLETONFUNC(Type, FuncName)  \
+static Type& FuncName()                     \
+{                                           \
+    static Type inst;                       \
+    return inst;                            \
+}
+
 #include "Timer/cGameTimer.h"
 #include "Device/cDevice.h"
 #include "Util/utilMath.h"

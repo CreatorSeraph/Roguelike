@@ -10,9 +10,8 @@ void c2DTransform::RenewalMatrix()
     m_isNeedRenewalWorldMatrix = false;
 }
 
-c2DTransform::c2DTransform(cObject* _obj)
-    : cComponent(_obj)
-    , m_isNeedRenewalWorldMatrix(false)
+c2DTransform::c2DTransform()
+    : m_isNeedRenewalWorldMatrix(false)
     , m_parent(nullptr), m_rot(0.f)
 {
 }
