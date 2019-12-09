@@ -59,6 +59,24 @@ bool cDevice::LoadNowD3Dpp()
     return true;
 }
 
+inline void cDevice::BeforeReleaseDevice()
+{
+    for (auto& iter : m_releaseDeviceFunc)
+        iter();
+}
+
+inline void cDevice::OnLostDevice()
+{
+    for (auto& iter : m_lostDeviceFunc)
+        iter();
+}
+
+inline void cDevice::OnResetDevice()
+{
+    for (auto& iter : m_resetDeviceFunc)
+        iter();
+}
+
 cDevice::cDevice()
     : m_isInitialized(false), m_d3d9(Direct3DCreate9(D3D_SDK_VERSION)), m_nowD3Dpp(), m_pDevice(nullptr)
     , m_clearColor(0xff0000ff)
@@ -70,6 +88,7 @@ cDevice::cDevice()
 
 cDevice::~cDevice()
 {
+    BeforeReleaseDevice();
     if (m_isInitialized)
         m_pDevice->Release();
     m_d3d9->Release();
@@ -160,8 +179,7 @@ HRESULT cDevice::TryDeviceReset()
         if (m_needResetObj)
         {
             //onLost
-            if (m_lostDeviceFunc)
-                m_lostDeviceFunc();
+            OnLostDevice();
 
             m_needResetObj = false;
         }
@@ -172,14 +190,43 @@ HRESULT cDevice::TryDeviceReset()
             return result;
 
         //onReset
-        if (m_resetDeviceFunc)
-            m_resetDeviceFunc();
+        OnResetDevice();
 
         //오브젝트가 reset되었으므로, 다음 lost시에는 다시 reset해야함
         m_needResetObj = true;
         m_isLost = false;
     }
     return result;
+}
+
+cDevice::functionListIter cDevice::AddReleaseDeviceFunc(std::function<void()> _func)
+{
+    return m_releaseDeviceFunc.emplace(m_releaseDeviceFunc.end(), std::move(_func));
+}
+
+cDevice::functionListIter cDevice::AddLostDeviceFunc(std::function<void()> _func)
+{
+    return m_lostDeviceFunc.emplace(m_lostDeviceFunc.end(), std::move(_func));
+}
+
+cDevice::functionListIter cDevice::AddResetDeviceFunc(std::function<void()> _func)
+{
+    return m_resetDeviceFunc.emplace(m_resetDeviceFunc.end(), std::move(_func));
+}
+
+void cDevice::DeleteReleaseDeviceFunc(functionListIter _iter)
+{
+    m_releaseDeviceFunc.erase(_iter);
+}
+
+void cDevice::DeleteLostDeviceFunc(functionListIter _iter)
+{
+    m_lostDeviceFunc.erase(_iter);
+}
+
+void cDevice::DeleteResetDeviceFunc(functionListIter _iter)
+{
+    m_resetDeviceFunc.erase(_iter);
 }
 
 std::vector<D3DDISPLAYMODE> cDevice::GetDeviceSize()

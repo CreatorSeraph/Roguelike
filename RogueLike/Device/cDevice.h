@@ -15,6 +15,7 @@
 #include <d3dx9.h>
 #pragma warning(pop)
 
+#include <list>
 #include <vector>
 #include <functional>
 
@@ -26,6 +27,10 @@ protected:
     D3DPRESENT_PARAMETERS MakeDefaultD3Dpp(HWND _hWnd);
     bool SaveNowD3Dpp();
     bool LoadNowD3Dpp();
+
+    inline void BeforeReleaseDevice();
+    inline void OnLostDevice();
+    inline void OnResetDevice();
 protected:
     bool m_isInitialized;
     LPDIRECT3D9 m_d3d9;
@@ -37,8 +42,10 @@ protected:
     bool m_isLost;
     bool m_needResetObj;
 
-    std::function<void()> m_lostDeviceFunc;
-    std::function<void()> m_resetDeviceFunc;
+    using functionList = std::list<std::function<void()>>;
+    functionList m_releaseDeviceFunc;
+    functionList m_lostDeviceFunc;
+    functionList m_resetDeviceFunc;
 public:
     cDevice();
     ~cDevice();
@@ -50,8 +57,16 @@ public:
     HRESULT Present();
     HRESULT TryDeviceReset();
     HRESULT ChangeDevice();
-
-    bool isLostDevice() { return m_isLost; }
+public:
+    using functionListIter = functionList::iterator;
+    functionListIter AddReleaseDeviceFunc(std::function<void()> _func);
+    functionListIter AddLostDeviceFunc(std::function<void()> _func);
+    functionListIter AddResetDeviceFunc(std::function<void()> _func);
+    void DeleteReleaseDeviceFunc(functionListIter _iter);
+    void DeleteLostDeviceFunc(functionListIter _iter);
+    void DeleteResetDeviceFunc(functionListIter _iter);
+public:
+    bool IsLostDevice() { return m_isLost; }
 
     LPDIRECT3DDEVICE9 GetDevice() { return m_pDevice; }
     std::vector<D3DDISPLAYMODE> GetDeviceSize();
