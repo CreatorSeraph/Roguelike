@@ -72,13 +72,13 @@
     <ClInclude Include="Render\cTexture.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cThreadPool.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cComponentManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Render\cRenderer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\cThreadPool.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\cComponentManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -128,13 +128,13 @@
     <ClCompile Include="Render\cTexture.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cThreadPool.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cComponentManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Render\cRenderer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\cThreadPool.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\cComponentManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

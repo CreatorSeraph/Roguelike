@@ -53,14 +53,14 @@ WPARAM cMainWindow::MainLoop(HACCEL _hAccel)
         }
         else
         {
-            if (g_Device.isLostDevice() || !m_isActive)
+            if (g_Device.IsLostDevice() || !m_isActive)
             {
                 //화면이 비활성화 되어있을시, cpu점유율을 낮춰줌
                 std::this_thread::sleep_for(50ms);
             }
 
             //그래픽카드 lost상태일시 reset 시도
-            if (g_Device.isLostDevice())
+            if (g_Device.IsLostDevice())
             {
                 auto resetResult = g_Device.TryDeviceReset();
                 //디바이스의 lost상태가 유지(다른 프로그램이 Device를 사용중이거나, 절전모드등의 이유로 사용하지 못함.
