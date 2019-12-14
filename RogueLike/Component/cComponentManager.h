@@ -7,9 +7,9 @@ class cComponentManager
 public:
     MAKE_SINGLETONFUNC(cComponentManager, GetInst)
 protected:
-    std::list<cComponent* const> m_components;
+    std::list<cComponent*> m_components;
 public:
-    void AddComponent(cComponent* const component);
+    void AddComponent(cComponent* component);
     void Update();
 };
 

@@ -5,7 +5,7 @@ class cComponent
 {
     friend cObject;
 protected:
-    cObject* const m_obj;
+    cObject* m_obj;
     //여기에 멤버변수를 기재
     bool m_isWillDelete;
     bool m_isActive;
@@ -20,7 +20,7 @@ public:
     void SetActive(bool _active) { m_isActive = _active; }
     bool IsWillDelete() { return m_isWillDelete; }
 protected:
-    void SetObject(cObject* _obj);
+    void SetObject(cObject* _obj) { m_obj = _obj; }
 
     virtual void OnCreate() {}
     virtual void OnDestroy() {}
