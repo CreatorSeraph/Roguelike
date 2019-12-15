@@ -81,6 +81,12 @@
     <ClInclude Include="Component\cComponentManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\cSceneManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\cScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RogueLike.cpp">
@@ -135,6 +141,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Component\cComponentManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\cSceneManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\cScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

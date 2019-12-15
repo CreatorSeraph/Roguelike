@@ -29,7 +29,7 @@ D3DXMATRIX c2DTransform::GetLocalMatrix()
     auto pivotX = (m_pivotPos.x - 0.5f) * m_size.x;
     auto pivotY = (m_pivotPos.y - 0.5f) * m_size.y;
 
-    auto _41 = -cosRot * pivotX * m_scale.x + sinRot * pivotY * m_scale.y + m_pos.x;
+    auto _41 =-cosRot * pivotX * m_scale.x + sinRot * pivotY * m_scale.y + m_pos.x;
     auto _42 = sinRot * pivotX * m_scale.x + cosRot * pivotY * m_scale.y + m_pos.y;
 
     result._11 = cosRot * m_scale.x;  result._12 = -sinRot * m_scale.x; result._13 = 0;       result._14 = 0;
