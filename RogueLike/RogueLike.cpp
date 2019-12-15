@@ -5,6 +5,8 @@
 #include "Log/consoleLog.h"
 #include "Window/cMainWindow.h"
 
+#include "Thread/cThreadPool.h"
+
 cMainWindow g_mainWindow;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -40,6 +42,24 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
     consoleLog log;
     MyRegisterClass(hInstance);
+
+    cThreadPool tp;
+
+    std::vector<std::future<int>> results;
+    results.reserve(100);
+
+    for (int i = 2; i < 10; ++i)
+    {
+        for (int j = 1; j < 10; ++j)
+        {
+            auto result = tp.AddFunc([](int _i, int _j) {
+                wcout << _i << "\t" << _j << endl;
+                return _i * _j; 
+                }, i, j);
+            results.push_back(std::move(result));
+        }
+    }
+    
 
     if (!g_mainWindow.Init(hInstance, nCmdShow))
         return false;
