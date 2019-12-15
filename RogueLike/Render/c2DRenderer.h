@@ -6,7 +6,7 @@ class cTexture;
 class c2DRenderer : public cRenderer
 {
 protected:
-    class c2DRendererIndexedBuffer
+    struct s2DRendererIndexedBuffer
     {
         LPDIRECT3DVERTEXBUFFER9 m_vb;
         LPDIRECT3DINDEXBUFFER9 m_ib;
@@ -14,11 +14,11 @@ protected:
 
         void Release();
 
-        c2DRendererIndexedBuffer();
-        ~c2DRendererIndexedBuffer();
+        s2DRendererIndexedBuffer();
+        ~s2DRendererIndexedBuffer();
     };
 
-    MAKE_SINGLETONFUNC(c2DRendererIndexedBuffer, GetVIBuffer);
+    MAKE_SINGLETONFUNC(s2DRendererIndexedBuffer, GetVIBuffer);
 protected:
     static LPDIRECT3DVERTEXBUFFER9 staticVB;
 protected:

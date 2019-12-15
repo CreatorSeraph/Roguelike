@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "c2DRenderer.h"
 
-c2DRenderer::c2DRendererIndexedBuffer::c2DRendererIndexedBuffer()
+c2DRenderer::s2DRendererIndexedBuffer::s2DRendererIndexedBuffer()
 {
     g_Device.GetDevice()->CreateVertexBuffer(
         sizeof(sVertexType) * 4,
@@ -46,7 +46,7 @@ c2DRenderer::c2DRendererIndexedBuffer::c2DRendererIndexedBuffer()
     m_releaseFuncIter = g_Device.AddReleaseDeviceFunc([this]() {Release(); });
 }
 
-void c2DRenderer::c2DRendererIndexedBuffer::Release()
+void c2DRenderer::s2DRendererIndexedBuffer::Release()
 {
     if (m_ib)
     {
@@ -60,7 +60,7 @@ void c2DRenderer::c2DRendererIndexedBuffer::Release()
     }
 }
 
-c2DRenderer::c2DRendererIndexedBuffer::~c2DRendererIndexedBuffer()
+c2DRenderer::s2DRendererIndexedBuffer::~s2DRendererIndexedBuffer()
 {
     g_Device.DeleteReleaseDeviceFunc(m_releaseFuncIter);
 }
