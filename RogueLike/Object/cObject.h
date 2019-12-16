@@ -3,9 +3,9 @@
 #include <type_traits>
 #include "Component/cComponent.h"
 
-class cObject
+class cObject final
 {
-protected:
+private:
     std::map<string, cComponent*> m_components;
 public:
     template<class ComponentType, class = std::enable_if_t<std::is_base_of_v<cComponent, ComponentType>>, class ...Args>
