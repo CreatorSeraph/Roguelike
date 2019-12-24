@@ -40,6 +40,7 @@ cScene* cSceneManager::FindScene(const wstring& _name)
     {
         return find->second;
     }
+    return nullptr;
 }
 
 void cSceneManager::Update()

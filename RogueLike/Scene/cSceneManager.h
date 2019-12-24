@@ -11,7 +11,7 @@ private:
     cScene* m_nextScene;
     std::map<wstring, cScene*> m_scenes;
 public:
-    cSceneManager() = default;
+    cSceneManager();
     ~cSceneManager();
 
     cScene* AddScene(const wstring& _name, cScene* _scene);
