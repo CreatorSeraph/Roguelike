@@ -8,19 +8,28 @@ class cComponent;
 class cComponentThread
 {
 protected:
-    std::list<cComponent*>::iterator m_startIter;
-    std::list<cComponent*>::iterator m_endIter;
+    using componentIter = std::list<cComponent*>::iterator;
+    componentIter m_startIter;
+    const componentIter& m_endIter;
     size_t m_count;
-
-    std::list<cComponent*>::iterator m_now;
-    std::function<void(cComponent*)> m_function;
+protected:
+    componentIter m_now;
+    using componentFunc = void(*)(cComponent*);
+    componentFunc m_func;
 protected:
     mutable std::mutex m_mutex;
     std::condition_variable m_cv;
+    std::thread m_thread;
+    bool m_willDestroy;
+protected:
+    void InitFunc();
 public:
-    cComponentThread();
+    cComponentThread(componentIter _startIter, const componentIter& _endIter);
     ~cComponentThread();
 
-    void LaunchFunction(std::function<void(cComponent*)> _func);
+    bool LaunchFunction(componentFunc _func);
+public:
+    const componentIter& GetStartIter() { return m_startIter; }
+    bool IsWait() { return m_endIter == m_now; }
 };
 

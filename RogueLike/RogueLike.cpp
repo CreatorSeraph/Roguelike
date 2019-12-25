@@ -6,6 +6,7 @@
 #include "Window/cMainWindow.h"
 
 #include "Thread/cThreadPool.h"
+#include "Component/cComponentManager.h"
 
 cMainWindow g_mainWindow;
 
@@ -59,7 +60,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             results.push_back(std::move(result));
         }
     }
-    
+
+    cComponentManager cCm;
 
     if (!g_mainWindow.Init(hInstance, nCmdShow))
         return false;
