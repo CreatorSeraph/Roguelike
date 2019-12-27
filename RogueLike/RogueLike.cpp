@@ -44,6 +44,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     consoleLog log;
     MyRegisterClass(hInstance);
 
+    auto val = []() { return 4; };
+    int* p = reinterpret_cast<int*>(&val);
+
     cThreadPool tp;
 
     std::vector<std::future<int>> results;

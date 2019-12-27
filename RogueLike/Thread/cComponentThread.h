@@ -14,22 +14,24 @@ protected:
     size_t m_count;
 protected:
     componentIter m_now;
-    using componentFunc = void(*)(cComponent*);
+    using componentFunc = void(cComponent::*)(void);
     componentFunc m_func;
 protected:
     mutable std::mutex m_mutex;
-    std::condition_variable m_cv;
     std::thread m_thread;
     bool m_willDestroy;
 protected:
-    void InitFunc();
+    void InitFunc(std::condition_variable& _cv);
 public:
-    cComponentThread(componentIter _startIter, const componentIter& _endIter);
+    cComponentThread(componentIter _startIter, const componentIter& _endIter, std::condition_variable& _cv);
     ~cComponentThread();
 
     bool LaunchFunction(componentFunc _func);
 public:
     const componentIter& GetStartIter() { return m_startIter; }
     bool IsWait() { return m_endIter == m_now; }
+    size_t GetCount() { return m_count; }
+    void AddComponent() { ++m_count; }
+    void DeleteComponent() { --m_count; }
 };
 

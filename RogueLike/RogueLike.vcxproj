@@ -171,6 +171,7 @@
     <ClInclude Include="Scene\cScene.h" />
     <ClInclude Include="Scene\cSceneManager.h" />
     <ClInclude Include="Render\cRenderer.h" />
+    <ClInclude Include="Thread\cComponentThread.h" />
     <ClInclude Include="Thread\cThreadPool.h" />
     <ClInclude Include="Render\c2DRenderer.h" />
     <ClInclude Include="Component\cCamera.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="Scene\cScene.cpp" />
     <ClCompile Include="Scene\cSceneManager.cpp" />
     <ClCompile Include="Render\cRenderer.cpp" />
+    <ClCompile Include="Thread\cComponentThread.cpp" />
     <ClCompile Include="Thread\cThreadPool.cpp" />
     <ClCompile Include="Render\c2DRenderer.cpp" />
     <ClCompile Include="Component\cCamera.cpp" />

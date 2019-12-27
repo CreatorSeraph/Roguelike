@@ -1,9 +1,11 @@
 #pragma once
 
 class cObject;
+class cComponentManager;
 class cComponent
 {
     friend cObject;
+    friend cComponentManager;
 protected:
     cObject* m_obj;
     //여기에 멤버변수를 기재
@@ -27,5 +29,6 @@ protected:
     virtual void OnEnable() {}
     virtual void OnDisable() {}
     virtual void OnUpdate() {}
+    virtual void OnLateUpdate() {}
 };
 

@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "cComponentThread.h"
 
-void cComponentThread::InitFunc()
+void cComponentThread::InitFunc(std::condition_variable& _cv)
 {
     while (true)
     {
         std::unique_lock lock(m_mutex);
-        m_cv.wait(lock, [this]() {
+        _cv.wait(lock, [this]() {
             return (m_endIter == m_now && m_func)
                 || m_willDestroy;
         });
@@ -14,16 +14,16 @@ void cComponentThread::InitFunc()
 
         for (m_now = m_startIter; m_now != m_endIter; ++m_now)
         {
-            m_func(*m_now);
+            ((*m_now)->*m_func)();
         }
         m_func = nullptr;
     }
 }
 
-cComponentThread::cComponentThread(componentIter _startIter, const componentIter& _endIter)
+cComponentThread::cComponentThread(componentIter _startIter, const componentIter& _endIter, std::condition_variable& _cv)
     : m_startIter(_startIter), m_endIter(_endIter), m_count(std::distance(_startIter, _endIter))
     , m_now(_endIter), m_willDestroy(false), m_func(nullptr)
-    , m_thread([this]() {InitFunc(); })
+    , m_thread([this, &_cv]() {InitFunc(_cv); })
 {
 }
 
@@ -40,6 +40,5 @@ bool cComponentThread::LaunchFunction(componentFunc _func)
 
     std::lock_guard lock(m_mutex);
     m_func = _func;
-    m_cv.notify_one();
     return true;
 }

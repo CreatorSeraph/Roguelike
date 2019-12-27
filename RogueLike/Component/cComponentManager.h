@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include <thread>
+#include <mutex>
 
 class cComponent;
 class cComponentThread;
@@ -14,6 +15,7 @@ protected:
 
     std::list<cComponent*> m_reservedComponents;//다음에 추가됨
     std::vector<cComponentThread*> m_componentThreads;
+    std::condition_variable m_cv;
 public:
     cComponentManager(size_t _threadCount = std::thread::hardware_concurrency());
     ~cComponentManager();
