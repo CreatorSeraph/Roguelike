@@ -11,7 +11,7 @@ protected:
     using componentIter = std::list<cComponent*>::iterator;
     componentIter m_startIter;
     const componentIter& m_endIter;
-    size_t m_count;
+    int m_count;
 protected:
     componentIter m_now;
     using componentFunc = void(cComponent::*)(void);
@@ -28,9 +28,9 @@ public:
 
     bool LaunchFunction(componentFunc _func);
 public:
-    const componentIter& GetStartIter() { return m_startIter; }
-    bool IsWait() { return m_endIter == m_now; }
-    size_t GetCount() { return m_count; }
+    const componentIter& GetStartIter() const { return m_startIter; }
+    bool IsWait() const { return m_endIter == m_now; }
+    int GetCount() const { return m_count; }
     void AddComponent() { ++m_count; }
     void DeleteComponent() { --m_count; }
 };

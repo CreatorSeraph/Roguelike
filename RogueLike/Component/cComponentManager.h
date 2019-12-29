@@ -15,7 +15,10 @@ protected:
 
     std::list<cComponent*> m_reservedComponents;//다음에 추가됨
     std::vector<cComponentThread*> m_componentThreads;
+    std::size_t m_threadCount;
     std::condition_variable m_cv;
+protected:
+
 public:
     cComponentManager(size_t _threadCount = std::thread::hardware_concurrency());
     ~cComponentManager();
