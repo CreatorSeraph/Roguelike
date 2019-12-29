@@ -35,29 +35,57 @@ void cComponentManager::BeforeUpdate()
 {
     while (!m_reservedComponents.empty())
     {
-        cComponentThread* minCountThread = m_componentThreads[0];
-        int minGap = m_reservedComponents.size();
+        std::vector<cComponentThread*> minCountThread;
+        minCountThread.reserve(m_threadCount);
+        minCountThread.push_back(m_componentThreads[0]);
+
+        int minCount = m_componentThreads[0]->GetCount();
+        int reservedCount = m_reservedComponents.size();
+        int minGap = reservedCount;
         if (m_threadCount > 1)
         {
             for (int i = 1; i < m_threadCount; ++i)
             {
                 cComponentThread* iter = m_componentThreads[i];
-                int gap = iter->GetCount() - minCountThread->GetCount();
+                int gap = iter->GetCount() - minCount;
 
-                if (gap < minGap)
+                if (minGap == 0 && gap == 0)
+                {
+                    minCountThread.push_back(iter);
+                }
+                else if (gap < minGap)
                 {
                     if (gap < 0)
                     {
-                        minCountThread = iter;
+                        minCountThread.clear();
+                        minCountThread.push_back(iter);
                         gap = -gap;
+                        minCount = 1;
                     }
                     minGap = gap;
                 }
             }
         }
 
-        m_components.splice(minCountThread->GetStartIter(), m_reservedComponents, m_reservedComponents.begin());
-        minCountThread->AddComponent();
+        int minThreadCount = minCountThread.size();
+        int totalCount = minThreadCount * minGap;
+        if (totalCount > reservedCount)
+            totalCount = reservedCount;
+
+        auto divResult = std::div(totalCount, minThreadCount);
+
+        for (int i = 0; i < minThreadCount; ++i)
+        {
+            auto iter = minCountThread[i];
+
+            int moveCount = divResult.quot + (i < divResult.rem);
+            auto endIter = std::next(m_reservedComponents.begin(), moveCount + 1);
+            m_components.splice(iter->GetEndIter(), m_reservedComponents, m_reservedComponents.begin(), endIter);
+            iter->AddComponent(moveCount);
+
+            if (iter->GetStartIter() == iter->GetEndIter())
+                iter->SetStartIter(std::prev(iter->GetEndIter(), moveCount));
+        }
     }
 }
 

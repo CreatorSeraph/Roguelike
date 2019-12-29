@@ -29,9 +29,11 @@ public:
     bool LaunchFunction(componentFunc _func);
 public:
     const componentIter& GetStartIter() const { return m_startIter; }
+    const componentIter& GetEndIter() const { return m_endIter; }
+    void SetStartIter(componentIter _iter) { m_startIter = _iter; }
     bool IsWait() const { return m_endIter == m_now; }
     int GetCount() const { return m_count; }
-    void AddComponent() { ++m_count; }
+    void AddComponent(int _count) { m_count += _count; }
     void DeleteComponent() { --m_count; }
 };
 
