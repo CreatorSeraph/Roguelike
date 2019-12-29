@@ -38,9 +38,10 @@ void cComponentManager::BeforeUpdate()
         std::vector<cComponentThread*> minCountThread;
         minCountThread.reserve(m_threadCount);
         minCountThread.push_back(m_componentThreads[0]);
-
-        int minCount = m_componentThreads[0]->GetCount();
         int reservedCount = m_reservedComponents.size();
+
+        //가장 적은 개수의 컴포넌트를 가지고 있는 스레드와, 넣어도 괜찮은 최대 컴포넌트 개수를 구한다.
+        int minCount = m_componentThreads[0]->GetCount();
         int minGap = reservedCount;
         if (m_threadCount > 1)
         {
@@ -74,13 +75,14 @@ void cComponentManager::BeforeUpdate()
 
         auto divResult = std::div(totalCount, minThreadCount);
 
+        //가장 적은 개수의 컴포넌트를 가진 스레드에 필요한 개수만큼 나눠서 컴포넌트를 넣는다.
         for (int i = 0; i < minThreadCount; ++i)
         {
             auto iter = minCountThread[i];
 
             int moveCount = divResult.quot + (i < divResult.rem);
-            auto endIter = std::next(m_reservedComponents.begin(), moveCount + 1);
-            m_components.splice(iter->GetEndIter(), m_reservedComponents, m_reservedComponents.begin(), endIter);
+            auto startIter = std::prev(m_reservedComponents.end(), moveCount);
+            m_components.splice(iter->GetEndIter(), m_reservedComponents, startIter, m_reservedComponents.end());
             iter->AddComponent(moveCount);
 
             if (iter->GetStartIter() == iter->GetEndIter())
