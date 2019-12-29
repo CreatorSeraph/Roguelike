@@ -35,10 +35,6 @@ void cComponentManager::BeforeUpdate()
 {
     while (!m_reservedComponents.empty())
     {
-        //auto minCountThread = std::min_element(m_componentThreads.rbegin(), m_componentThreads.rend(),
-        //    [](const cComponentThread* p1, const cComponentThread* p2) {
-        //        return p1->GetCount() < p2->GetCount();
-        //    });
         cComponentThread* minCountThread = m_componentThreads[0];
         int minGap = m_reservedComponents.size();
         if (m_threadCount > 1)
@@ -58,23 +54,6 @@ void cComponentManager::BeforeUpdate()
                     minGap = gap;
                 }
             }
-            //cComponentThread* minSecCountThread = m_componentThreads[1];
-            //if (minCountThread->GetCount() > minSecCountThread->GetCount())
-            //    std::swap(minCountThread, minSecCountThread);
-            //
-            //for (int i = 2; i < m_threadCount; ++i)
-            //{
-            //    auto* iter = m_componentThreads[i];
-            //    auto count = iter->GetCount();
-            //    if (count < minSecCountThread->GetCount())
-            //    {
-            //        minSecCountThread = iter;
-            //        if (count < minCountThread->GetCount())
-            //        {
-            //            std::swap(minCountThread, minSecCountThread);
-            //        }
-            //    }
-            //}
         }
 
         m_components.splice(minCountThread->GetStartIter(), m_reservedComponents, m_reservedComponents.begin());
