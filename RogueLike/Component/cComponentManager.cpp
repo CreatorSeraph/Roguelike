@@ -56,4 +56,9 @@ void cComponentManager::LateUpdate()
 
 void cComponentManager::AfterUpdate()
 {
+    for (auto iter = m_components.begin(); iter != m_components.end();)
+    {
+
+    }
+
 }
