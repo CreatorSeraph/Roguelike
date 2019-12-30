@@ -21,6 +21,7 @@ public:
     bool IsActive() { return m_isActive; }
     void SetActive(bool _active) { m_isActive = _active; }
     bool IsWillDelete() { return m_isWillDelete; }
+    void Delete() { m_isWillDelete = true; }
 protected:
     void SetObject(cObject* _obj) { m_obj = _obj; }
 

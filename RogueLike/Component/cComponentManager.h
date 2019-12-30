@@ -32,4 +32,4 @@ public:
     void AfterUpdate();
 };
 
-#define COMPONENTMANAGER cDevice::GetInst()
+#define COMPONENTMANAGER cComponentManager::GetInst()
