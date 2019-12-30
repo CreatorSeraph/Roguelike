@@ -78,7 +78,7 @@ void cComponentManager::BeforeUpdate()
         //가장 적은 개수의 컴포넌트를 가진 스레드에 필요한 개수만큼 나눠서 컴포넌트를 넣는다.
         for (int i = 0; i < minThreadCount; ++i)
         {
-            auto iter = minCountThread[i];
+            auto* iter = minCountThread[i];
 
             int moveCount = divResult.quot + (i < divResult.rem);
             auto startIter = std::prev(m_reservedComponents.end(), moveCount);
@@ -93,23 +93,36 @@ void cComponentManager::BeforeUpdate()
 
 void cComponentManager::Update()
 {
-    for (auto iter : m_componentThreads)
+    for (auto* iter : m_componentThreads)
         iter->LaunchFunction(&cComponent::OnUpdate);
     m_cv.notify_all();
 }
 
 void cComponentManager::LateUpdate()
 {
-    for (auto iter : m_componentThreads)
+    for (auto* iter : m_componentThreads)
         iter->LaunchFunction(&cComponent::OnLateUpdate);
     m_cv.notify_all();
 }
 
 void cComponentManager::AfterUpdate()
 {
-    for (auto iter = m_components.begin(); iter != m_components.end();)
+    for (auto* iter : m_componentThreads)
     {
-
+        for (auto componentIter = iter->GetStartIter(); componentIter != iter->GetEndIter();)
+        {
+            if ((*componentIter)->IsWillDelete())
+            {
+                bool isStartIter = componentIter == iter->GetStartIter();
+                componentIter = m_components.erase(componentIter);
+                if (isStartIter)
+                    iter->SetStartIter(componentIter);
+                iter->DeleteComponent();
+            }
+            else
+            {
+                ++componentIter;
+            }
+        }
     }
-
 }
