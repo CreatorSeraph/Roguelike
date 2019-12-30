@@ -3,10 +3,14 @@
 #include <type_traits>
 #include "Component/cComponent.h"
 
-class cObject final
+class cObject
 {
-private:
+protected:
     std::map<string, cComponent*> m_components;
+    wstring m_name;
+public:
+    cObject(wstring _name = L""s);
+    virtual ~cObject();
 public:
     template<class ComponentType, class = std::enable_if_t<std::is_base_of_v<cComponent, ComponentType>>, class ...Args>
     ComponentType* AddComponent(Args&&... args)
