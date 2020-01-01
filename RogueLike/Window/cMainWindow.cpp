@@ -2,8 +2,6 @@
 #include "cMainWindow.h"
 #include "resource.h"
 
-#include "Object/cObject.h"
-
 #include <thread>
 
 cMainWindow::cMainWindow()

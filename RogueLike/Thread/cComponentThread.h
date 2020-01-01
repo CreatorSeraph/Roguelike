@@ -17,11 +17,12 @@ protected:
     using componentFunc = void(cComponent::*)(void);
     componentFunc m_func;
 protected:
-    mutable std::mutex m_mutex;
-    std::thread m_thread;
     bool m_willDestroy;
+    mutable std::mutex m_mutex;
+    std::condition_variable& m_cv;
+    std::thread m_thread;
 protected:
-    void InitFunc(std::condition_variable& _cv);
+    void InitFunc();
 public:
     cComponentThread(componentIter _startIter, const componentIter& _endIter, std::condition_variable& _cv);
     ~cComponentThread();
@@ -29,7 +30,7 @@ public:
     bool LaunchFunction(componentFunc _func);
 public:
     const componentIter& GetStartIter() const { return m_startIter; }
-    const componentIter& GetEndIter() const { return m_endIter; }
+    componentIter GetEndIter() const { return m_endIter; }
     void SetStartIter(componentIter _iter) { m_startIter = _iter; }
     bool IsWait() const { return m_endIter == m_now; }
     int GetCount() const { return m_count; }
