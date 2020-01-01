@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Component\cComponentManager.h" />
+    <ClInclude Include="Object\cObjectManager.h" />
     <ClInclude Include="Scene\cScene.h" />
     <ClInclude Include="Scene\cSceneManager.h" />
     <ClInclude Include="Render\cRenderer.h" />
@@ -195,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component\cComponentManager.cpp" />
+    <ClCompile Include="Object\cObjectManager.cpp" />
     <ClCompile Include="Scene\cScene.cpp" />
     <ClCompile Include="Scene\cSceneManager.cpp" />
     <ClCompile Include="Render\cRenderer.cpp" />
