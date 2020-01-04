@@ -36,3 +36,9 @@
 RogueLike/.vs/RogueLike/v16/.suo
 RogueLike/Debug/
 .vs/
+*.iobj
+*.ipdb
+*.pdb
+*.tlog
+*.log
+*.res
