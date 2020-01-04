@@ -1,14 +1,14 @@
 #include "pch.h"
 #include "cComponentThread.h"
 
-void cComponentThread::InitFunc()
+void cComponentThread::InitFunc(std::condition_variable& _cv, std::mutex& _m)
 {
     while (true)
     {
-        std::unique_lock lock(m_mutex);
-        m_cv.wait(lock, [this]() {
-            return (m_endIter == m_now && m_func)
-                || m_willDestroy;
+        std::unique_lock lock(_m);
+
+        _cv.wait(lock, [&]() {
+            return (m_endIter == m_now && m_func) || m_willDestroy;
         });
         lock.unlock();
         if (m_willDestroy)
@@ -22,21 +22,25 @@ void cComponentThread::InitFunc()
     }
 }
 
-cComponentThread::cComponentThread(componentIter _startIter, const componentIter& _endIter, std::condition_variable& _cv)
+cComponentThread::cComponentThread(const componentIter& _endIter, bool& _destroyCondition)
+    : m_endIter(_endIter)
+    , m_willDestroy(_destroyCondition)
+{
+}
+
+cComponentThread::cComponentThread(componentIter _startIter, const componentIter& _endIter, std::condition_variable& _cv, std::mutex& _m, bool& _destroyCondition)
     : m_startIter(_startIter)
     , m_endIter(_endIter)
     , m_count(std::distance(_startIter, _endIter))
     , m_now(_endIter)
     , m_func(nullptr)
-    , m_willDestroy(false)
-    , m_cv(_cv)
-    , m_thread(&cComponentThread::InitFunc, this)
+    , m_willDestroy(_destroyCondition)
+    , m_thread([&]() {InitFunc(_cv, _m); })
 {
 }
 
 cComponentThread::~cComponentThread()
 {
-    m_willDestroy = true;
     m_thread.join();
 }
 
@@ -45,7 +49,6 @@ bool cComponentThread::LaunchFunction(componentFunc _func)
     if (m_func)
         return false;
 
-    std::lock_guard lock(m_mutex);
     m_func = _func;
     return true;
 }

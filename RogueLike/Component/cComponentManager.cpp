@@ -5,23 +5,27 @@
 #include <algorithm>
 
 cComponentManager::cComponentManager(size_t _threadCount)
-    : m_endIter(m_components.end()), m_threadCount(_threadCount)
+    : m_endIter(m_components.end()), m_threadCount(_threadCount), m_threadDestroy(false)
 {
     if (_threadCount == 0)
         throw std::exception("_threadCount는 0일수 없습니다.");
     m_componentThreads.resize(_threadCount);
     for (int i = _threadCount - 1; i >= 0; --i)
     {
-        m_componentThreads[i] = new cComponentThread(m_components.begin(),
-            (i == _threadCount - 1) ?
-            m_endIter :
-            m_componentThreads[i + 1]->GetStartIter(),
-            m_cv);
+        auto newThread = new cComponentThread(m_endIter, m_threadDestroy);
+        //auto newThread = new cComponentThread(m_components.begin(),
+        //    ((i == _threadCount - 1) ?
+        //        m_endIter :
+        //        m_componentThreads[i + 1]->GetStartIter()),
+        //    m_cv, m_mutex, m_threadDestroy);
+        //m_componentThreads[i] = newThread;
     }
 }
 
 cComponentManager::~cComponentManager()
 {
+    m_threadDestroy = true;
+    m_cv.notify_all();
     for (auto iter : m_componentThreads)
         delete iter;
 }
@@ -33,6 +37,7 @@ void cComponentManager::AddComponent(cComponent* _component)
 
 void cComponentManager::BeforeUpdate()
 {
+    std::lock_guard lock(m_mutex);
     while (!m_reservedComponents.empty())
     {
         std::vector<cComponentThread*> minCountThread;
@@ -93,15 +98,21 @@ void cComponentManager::BeforeUpdate()
 
 void cComponentManager::Update()
 {
+    std::unique_lock lock(m_mutex);
     for (auto* iter : m_componentThreads)
         iter->LaunchFunction(&cComponent::OnUpdate);
+
+    lock.unlock();
     m_cv.notify_all();
 }
 
 void cComponentManager::LateUpdate()
 {
+    std::unique_lock lock(m_mutex);
     for (auto* iter : m_componentThreads)
         iter->LaunchFunction(&cComponent::OnLateUpdate);
+
+    lock.unlock();
     m_cv.notify_all();
 }
 

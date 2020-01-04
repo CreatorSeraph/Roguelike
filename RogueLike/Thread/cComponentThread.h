@@ -1,6 +1,5 @@
 #pragma once
 #include <list>
-#include <functional>
 #include <thread>
 #include <mutex>
 
@@ -17,14 +16,13 @@ protected:
     using componentFunc = void(cComponent::*)(void);
     componentFunc m_func;
 protected:
-    bool m_willDestroy;
-    mutable std::mutex m_mutex;
-    std::condition_variable& m_cv;
+    bool& m_willDestroy;
     std::thread m_thread;
 protected:
-    void InitFunc();
+    void InitFunc(std::condition_variable& _cv, std::mutex& _m);
 public:
-    cComponentThread(componentIter _startIter, const componentIter& _endIter, std::condition_variable& _cv);
+    cComponentThread(const componentIter& _endIter, bool& _destroyCondition);
+    cComponentThread(componentIter _startIter, const componentIter& _endIter, std::condition_variable& _cv, std::mutex& _m, bool& _destroyCondition);
     ~cComponentThread();
 
     bool LaunchFunction(componentFunc _func);
