@@ -3,6 +3,7 @@
 #include <functional>
 #include <thread>
 #include <mutex>
+#include <variant>
 
 class cComponent;
 class cComponentThread
@@ -10,7 +11,7 @@ class cComponentThread
 protected:
     using componentIter = std::list<cComponent*>::iterator;
     componentIter m_startIter;
-    const componentIter& m_endIter;
+    cComponentThread* m_nextThread;
     int m_count;
 protected:
     componentIter m_now;
@@ -24,15 +25,14 @@ protected:
 protected:
     void InitFunc();
 public:
-    cComponentThread(componentIter _startIter, const componentIter& _endIter, std::condition_variable& _cv);
+    cComponentThread(componentIter _startIter, cComponentThread* _nextThread, std::condition_variable& _cv);
     ~cComponentThread();
 
     bool LaunchFunction(componentFunc _func);
 public:
-    const componentIter& GetStartIter() const { return m_startIter; }
-    componentIter GetEndIter() const { return m_endIter; }
+    componentIter GetStartIter() const { return m_startIter; }
     void SetStartIter(componentIter _iter) { m_startIter = _iter; }
-    bool IsWait() const { return m_endIter == m_now; }
+    bool IsWait() const { return m_nextThread->GetStartIter() == m_now; }
     int GetCount() const { return m_count; }
     void AddComponent(int _count) { m_count += _count; }
     void DeleteComponent() { --m_count; }

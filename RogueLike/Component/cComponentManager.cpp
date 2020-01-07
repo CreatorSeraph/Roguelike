@@ -14,8 +14,8 @@ cComponentManager::cComponentManager(size_t _threadCount)
     {
         m_componentThreads[i] = new cComponentThread(m_components.begin(),
             (i == _threadCount - 1) ?
-            m_endIter :
-            m_componentThreads[i + 1]->GetStartIter(),
+            nullptr :
+            m_componentThreads[i + 1],
             m_cv);
     }
 }
