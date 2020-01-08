@@ -16,7 +16,8 @@ void cComponentThread::InitFunc(std::condition_variable& _cv)
     
         for (m_now = m_startIter; m_now != GetEndIter(); ++m_now)
         {
-            ((*m_now)->*m_func)();
+            m_func(*m_now);
+            //((*m_now)->*m_func)();
         }
         m_func = nullptr;
     }
@@ -26,9 +27,9 @@ cComponentThread::cComponentThread(componentIter _startIter, cComponentThread* _
     : m_startIter(_startIter)
     , m_nextThread(_nextThread)
     , m_endIter(_endIter)
-    , m_count(std::distance(_startIter, (m_nextThread ? m_nextThread->GetStartIter() : m_endIter)))
-    , m_now((m_nextThread ? m_nextThread->GetStartIter() : m_endIter))
-    , m_func(nullptr)
+    , m_count(std::distance(_startIter, (_nextThread ? _nextThread->GetStartIter() : _endIter)))
+    , m_now((_nextThread ? _nextThread->GetStartIter() : _endIter))
+    , m_func()
     , m_willDestroy(false)
     , m_thread([this, &_cv]() { InitFunc(_cv); })
 {

@@ -16,7 +16,8 @@ protected:
     int m_count;
 protected:
     componentIter m_now;
-    using componentFunc = void(cComponent::*)(void);
+    using componentFunc = std::function<void(cComponent*)>;
+    //using componentFunc = void(cComponent::*)(void);
     componentFunc m_func;
 protected:
     bool m_willDestroy;
