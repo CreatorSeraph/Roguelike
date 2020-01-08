@@ -5,7 +5,7 @@
 #include <algorithm>
 
 cComponentManager::cComponentManager(size_t _threadCount)
-    : m_endIter(m_components.end()), m_threadCount(_threadCount)
+    : m_threadCount(_threadCount)
 {
     if (_threadCount == 0)
         throw std::exception("_threadCount는 0일수 없습니다.");
@@ -16,6 +16,7 @@ cComponentManager::cComponentManager(size_t _threadCount)
             (i == _threadCount - 1) ?
             nullptr :
             m_componentThreads[i + 1],
+            m_components.end(),
             m_cv);
     }
 }
@@ -82,11 +83,10 @@ void cComponentManager::BeforeUpdate()
 
             int moveCount = divResult.quot + (i < divResult.rem);
             auto startIter = std::prev(m_reservedComponents.end(), moveCount);
-            m_components.splice(iter->GetEndIter(), m_reservedComponents, startIter, m_reservedComponents.end());
+            m_components.splice(iter->GetStartIter(), m_reservedComponents, startIter, m_reservedComponents.end());
             iter->AddComponent(moveCount);
 
-            if (iter->GetStartIter() == iter->GetEndIter())
-                iter->SetStartIter(std::prev(iter->GetEndIter(), moveCount));
+            iter->SetStartIter(startIter);
         }
     }
 }
@@ -109,7 +109,14 @@ void cComponentManager::AfterUpdate()
 {
     for (auto* iter : m_componentThreads)
     {
-        for (auto componentIter = iter->GetStartIter(); componentIter != iter->GetEndIter();)
+        auto GetNextIter = [this](cComponentThread* _iter) {
+            auto nextThread = _iter->GetNextThread();
+            if (nextThread)
+                return nextThread->GetStartIter();
+            return m_components.end();
+        };
+        auto targetEndIter = GetNextIter(iter);
+        for (auto componentIter = iter->GetStartIter(); componentIter != targetEndIter; )
         {
             if ((*componentIter)->IsWillDelete())
             {

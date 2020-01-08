@@ -11,7 +11,6 @@ public:
     MAKE_SINGLETONFUNC(cComponentManager, GetInst)
 protected:
     std::list<cComponent*> m_components;
-    const std::list<cComponent*>::iterator m_endIter;
 
     std::list<cComponent*> m_reservedComponents;//다음에 추가됨
     std::vector<cComponentThread*> m_componentThreads;
