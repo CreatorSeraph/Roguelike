@@ -17,7 +17,6 @@ void cComponentThread::InitFunc(std::condition_variable& _cv)
         for (m_now = m_startIter; m_now != GetEndIter(); ++m_now)
         {
             m_func(*m_now);
-            //((*m_now)->*m_func)();
         }
         m_func = nullptr;
     }
