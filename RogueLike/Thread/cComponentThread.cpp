@@ -1,37 +1,38 @@
 #include "pch.h"
 #include "cComponentThread.h"
 
-void cComponentThread::InitFunc()
+void cComponentThread::InitFunc(std::condition_variable& _cv)
 {
     while (true)
     {
         std::unique_lock lock(m_mutex);
-        m_cv.wait(lock, [this]() {
-            return (m_endIter == m_now && m_func)
+        _cv.wait(lock, [this]() {
+            return (GetEndIter() == m_now && m_func)
                 || m_willDestroy;
         });
         lock.unlock();
         if (m_willDestroy)
             break;
     
-        for (m_now = m_startIter; m_now != m_endIter; ++m_now)
+        for (m_now = m_startIter; m_now != GetEndIter(); ++m_now)
         {
-            ((*m_now)->*m_func)();
+            m_func(*m_now);
         }
         m_func = nullptr;
     }
 }
 
-cComponentThread::cComponentThread(componentIter _startIter, const componentIter& _endIter, std::condition_variable& _cv)
+cComponentThread::cComponentThread(componentIter _startIter, cComponentThread* _nextThread, componentIter _endIter, std::condition_variable& _cv)
     : m_startIter(_startIter)
+    , m_nextThread(_nextThread)
     , m_endIter(_endIter)
-    , m_count(std::distance(_startIter, _endIter))
-    , m_now(_endIter)
-    , m_func(nullptr)
+    , m_count(std::distance(_startIter, (_nextThread ? _nextThread->GetStartIter() : _endIter)))
+    , m_now((_nextThread ? _nextThread->GetStartIter() : _endIter))
+    , m_func()
     , m_willDestroy(false)
-    , m_cv(_cv)
-    , m_thread(&cComponentThread::InitFunc, this)
+    , m_thread([this, &_cv]() { InitFunc(_cv); })
 {
+    //m_thread = std::thread();
 }
 
 cComponentThread::~cComponentThread()
