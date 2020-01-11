@@ -16,16 +16,10 @@ void cComponentThread::InitFunc(std::condition_variable& _cv, std::mutex& _m)
     
         for (m_now = m_startIter; m_now != m_endIter; ++m_now)
         {
-            ((*m_now)->*m_func)();
+            m_func(*m_now);
         }
         m_func = nullptr;
     }
-}
-
-cComponentThread::cComponentThread(const componentIter& _endIter, bool& _destroyCondition)
-    : m_endIter(_endIter)
-    , m_willDestroy(_destroyCondition)
-{
 }
 
 cComponentThread::cComponentThread(componentIter _startIter, const componentIter& _endIter, std::condition_variable& _cv, std::mutex& _m, bool& _destroyCondition)

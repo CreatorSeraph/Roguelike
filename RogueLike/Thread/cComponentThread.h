@@ -13,7 +13,7 @@ protected:
     int m_count;
 protected:
     componentIter m_now;
-    using componentFunc = void(cComponent::*)(void);
+    using componentFunc = std::function<void(cComponent*)>;
     componentFunc m_func;
 protected:
     bool& m_willDestroy;
@@ -21,7 +21,6 @@ protected:
 protected:
     void InitFunc(std::condition_variable& _cv, std::mutex& _m);
 public:
-    cComponentThread(const componentIter& _endIter, bool& _destroyCondition);
     cComponentThread(componentIter _startIter, const componentIter& _endIter, std::condition_variable& _cv, std::mutex& _m, bool& _destroyCondition);
     ~cComponentThread();
 

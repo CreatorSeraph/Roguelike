@@ -12,13 +12,11 @@ cComponentManager::cComponentManager(size_t _threadCount)
     m_componentThreads.resize(_threadCount);
     for (int i = _threadCount - 1; i >= 0; --i)
     {
-        auto newThread = new cComponentThread(m_endIter, m_threadDestroy);
-        //auto newThread = new cComponentThread(m_components.begin(),
-        //    ((i == _threadCount - 1) ?
-        //        m_endIter :
-        //        m_componentThreads[i + 1]->GetStartIter()),
-        //    m_cv, m_mutex, m_threadDestroy);
-        //m_componentThreads[i] = newThread;
+        m_componentThreads[i] = new cComponentThread(m_components.begin(),
+            ((i == _threadCount - 1) ?
+                m_endIter :
+                m_componentThreads[i + 1]->GetStartIter()),
+            m_cv, m_mutex, m_threadDestroy);;
     }
 }
 
