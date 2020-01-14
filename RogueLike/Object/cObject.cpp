@@ -4,6 +4,8 @@
 
 cObject::cObject(wstring _name)
     : m_name(std::move(_name))
+    , m_willDestroy(false)
+    , m_dontDestroy(false)
 {
 }
 

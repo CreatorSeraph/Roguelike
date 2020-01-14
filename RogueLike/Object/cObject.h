@@ -3,11 +3,16 @@
 #include <type_traits>
 #include "Component/cComponent.h"
 
+class cObjectManager;
 class cObject
 {
+    friend cObjectManager;
 protected:
     std::map<string, cComponent*> m_components;
     wstring m_name;
+    bool m_willDestroy;
+    //씬 전환시에도 오브젝트가 삭제되지 않게 한다.
+    bool m_dontDestroy;
 public:
     cObject(wstring _name = L""s);
     virtual ~cObject();
