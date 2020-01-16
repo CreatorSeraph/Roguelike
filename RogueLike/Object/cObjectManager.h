@@ -11,8 +11,8 @@ protected:
 public:
     cObjectManager();
     ~cObjectManager();
-
 public:
     void AddObject(cObject* _obj);
+    void Update();
 };
 
