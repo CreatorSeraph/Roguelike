@@ -1,5 +1,5 @@
 #pragma once
-#include <unordered_set>
+#include <list>
 
 class cObject;
 class cObjectManager
@@ -7,12 +7,16 @@ class cObjectManager
 public:
     MAKE_SINGLETONFUNC(cObjectManager, GetInst)
 protected:
-    std::unordered_multiset<cObject*> m_objList;
+    std::list<cObject*> m_objList;
+    std::list<cObject*> m_reservedObjList;
 public:
     cObjectManager();
     ~cObjectManager();
 public:
     void AddObject(cObject* _obj);
     void Update();
+    void OnSceneChange();
+public:
+    void DontDestroyOnSceneChange(cObject* _obj);
 };
 
